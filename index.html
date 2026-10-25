@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#0d001a" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="description" content="Kado ulang tahun spesial penuh cinta dan kenangan terindah 💖" />
+  <title>Happy Birthday, Sayangku 🎂</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Nunito:wght@300;400;600;700;800&family=Dancing+Script:wght@500;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- Floating Audio Toast -->
+  <div class="music-toast" id="musicToast">
+    <span class="toast-icon">🎶</span>
+    <span class="toast-msg" id="musicToastMsg">Memutar lagu cinta...</span>
+  </div>
+
+  <!-- ========== LOCK SCREEN ========== -->
+  <div id="lockscreen" class="lockscreen">
+    <div class="lock-particles" id="lockParticles"></div>
+
+    <!-- Romantic Tap Prompt for Instant Music -->
+    <div class="music-start-prompt" id="musicPrompt" onclick="startMusicImmediate()">
+      <span class="prompt-icon">🎵</span>
+      <span class="prompt-text">Sentuh layar untuk lagu cinta kita 💖</span>
+    </div>
+
+    <div class="lock-card">
+      <div class="lock-icon-wrap">
+        <div class="lock-hearts">
+          <span>💗</span><span>💝</span><span>💗</span>
+        </div>
+        <div class="lock-icon">🔒</div>
+      </div>
+      <h1 class="lock-title">Ada yang spesial<br />menunggumu...</h1>
+      <p class="lock-hint">Masukkan tanggal lahir kamu <span class="hint-sub">(DDMMYYYY)</span></p>
+
+      <div class="pin-display" id="pinDisplay">
+        <span class="pin-dot"></span>
+        <span class="pin-dot"></span>
+        <span class="pin-dot"></span>
+        <span class="pin-dot"></span>
+        <span class="pin-dot"></span>
+        <span class="pin-dot"></span>
+        <span class="pin-dot"></span>
+        <span class="pin-dot"></span>
+      </div>
+
+      <div class="numpad">
+        <button class="num-btn" type="button" onclick="pressNum('1')">1</button>
+        <button class="num-btn" type="button" onclick="pressNum('2')">2</button>
+        <button class="num-btn" type="button" onclick="pressNum('3')">3</button>
+        <button class="num-btn" type="button" onclick="pressNum('4')">4</button>
+        <button class="num-btn" type="button" onclick="pressNum('5')">5</button>
+        <button class="num-btn" type="button" onclick="pressNum('6')">6</button>
+        <button class="num-btn" type="button" onclick="pressNum('7')">7</button>
+        <button class="num-btn" type="button" onclick="pressNum('8')">8</button>
+        <button class="num-btn" type="button" onclick="pressNum('9')">9</button>
+        <button class="num-btn clear-btn" type="button" onclick="clearPin()" aria-label="Hapus">&#9003;</button>
+        <button class="num-btn" type="button" onclick="pressNum('0')">0</button>
+        <button class="num-btn enter-btn" type="button" onclick="checkPin()" aria-label="Buka">&#10003;</button>
+      </div>
+
+      <p class="lock-error" id="lockError"></p>
+    </div>
+  </div>
+
+  <!-- Romantic CSS Background Layer (Fixed directly to viewport) -->
+  <div class="bg-stars-wrap" id="bgStarsWrap"></div>
+  <canvas id="confettiCanvas"></canvas>
+
+  <!-- 60 Floating Memory Photos Layer (Partikel Gambar Melayang) -->
+  <div class="floating-photos-wrap" id="floatingPhotosWrap"></div>
+
+  <!-- ========== LETTER PAGE ========== -->
+  <div id="letterPage" class="letter-page hidden">
+    <div class="letter-bg-orbs">
+      <div class="letter-orb letter-orb1"></div>
+      <div class="letter-orb letter-orb2"></div>
+      <div class="letter-orb letter-orb3"></div>
+    </div>
+
+    <div class="letter-floating-emojis">
+      <span class="letter-emoji" style="--d:0s;--x:8%">💌</span>
+      <span class="letter-emoji" style="--d:2.5s;--x:35%">✨</span>
+      <span class="letter-emoji" style="--d:5s;--x:65%">🌸</span>
+      <span class="letter-emoji" style="--d:1.5s;--x:88%">💖</span>
+      <span class="letter-emoji" style="--d:3.8s;--x:52%">🌹</span>
+    </div>
+
+    <div class="letter-container">
+      <div class="letter-envelope-icon">💌</div>
+
+      <div class="letter-header">
+        <span class="letter-badge">✨ Spesial Untukmu ✨</span>
+        <h1 class="letter-title">Sebuah Surat Kecil
+          <span class="letter-title-accent">dari Hatiku</span>
+        </h1>
+      </div>
+
+      <div class="letter-paper">
+        <div class="letter-paper-lines"></div>
+        <div class="letter-paper-content">
+          <p class="letter-greeting" id="letterGreeting">Untuk Shabrinaa Laraskuu Sayanggg,</p>
+
+          <div class="letter-body">
+            <!-- ✏️ EDIT KATA-KATA KAMU DI BAWAH INI -->
+            <p>💖✨💕💞HAPPYY BIRTHDAYYY YANGG KEE- 20 SHABRINAA LARASSKUUU SAYANGGG💖✨💕💞
+
+              selamattt ulangg tahunn yangg ke 20 sayangggg,sudaa kepalaa duaa 👩🏻👩🏻diaa gaisss
+              xixixixi,alhamdulillahhh sudaa diberii umurr panjangg samaa allahhh sampee 20 tahunn iniii,the first kitaa
+              haruss bersyukurr duluu sayanggg oteyyy,alhamdulillahhh✨💖💫⭐
+              <br><br>
+              semogaa dengannn umurrr sayanngg yangg sudaa masukk 20 iniii semuaa hall yangg udaa sayangg lakuinn semuaa
+              ibadahhhnaa allahh terimaa sayanggg yaaaa aamiiiinnn,dann semuaa dosaa-dosaa sayanggkuuu allahh ampuniii
+              yaaa aamiinn yaa rabball alaamiiennn🤲🏻🤲🏻
+              <br><br>
+              terusss semogaa kedepannaaa semuaa halll yangg sayanggg mauuu,sayanngg pengenn ip pengenn samsungg pengenn
+              tabb pengenn tass,bajuuu,tumblerr seeemuaanaa allahh kabulinnn dann dimudahkann untukk mewujudkannaa
+              aamiiinn🤲🏻🤲🏻🫶🏻
+              <br><br>
+              dann jugaa semogaa jalann hidupp sayanggkuu allahh permudahhh,allahh lancarrkannn dihindarkann darii
+              segalaa bahayaa dann musibahh terusss allahh bukaa dann perluass pintuu rezekii sayanggkuuu aaamiiinn
+              aamiinn allahummaa aaamiiin🤲🏻💖🫶🏻✨🤍
+              <br><br>
+              ndaa terasaa sayangg yaa udaa 20 tahunn sayanggkuu hiduppp,dengann segalaa likaa likuunaaa maniss
+              pahittnaa,susaa senanggnaa hidupp atuhhh,dann hebattnyaa sayanggkuu selaluu kuatt dann sabarr ngadepinn
+              semuaanaa sayangg dann jidann banggaa samaa larass atass semuaa hall yangg udaa sayangg
+              lakuinnn🤍✨⭐🫶🏻💞💕
+              <br><br>
+              sekarangg udaa jadii sosokk gadiss yangg cantikk,pinterrr perhatiannn jugaa sayanggkuu,setelahh semuaa
+              yangg terjadii sayannggkuu terkadangg haruss bersyukurr karenaa semuaa hall yangg udaa sayanggkuu alaminn
+              dann lewatinn ituulaa yangg bikinn sayannggkuu jadii sosokk yangg luarrbiasaa hebatt saatt inii
+              atuhhh🤍✨💕💞⭐💖
+              <br><br>
+              jidann punn berterimaakasii karenaa diumurr kee 20 tahunnaa sayanggkuu iniii,jidann masii diberii
+              kesempatann buatt selaluuu nemeinn sayanggkuuu,dann bismillahh kedepannaa allahh tetapp berii kesempatann
+              inii sampee syurgaa nantiii aamiienn🤲🏻✨⭐
+              <br><br>
+              sebelumm ituu maafff yaa sayangg jidann tidaa bisaa ngasii hadiahh beliinn sayanggkuu sesuatuu sekarangg
+              iniii dii harii ulangg tahunn sayanggkuuu,jidann sadarr kekuranggann jidann inii dann jidann mintaa maaff
+              yaaa sayanggg,jidann tidaa bisaa memberii banyaa kee sayanggkuuu🥀🙏🏻,maybee sekedarr ucapann dann 1 hall
+              iniii darii jidann sayanngg🫶🏻🤍💖⭐xixixixi
+              <br><br>
+              semogaa jidannn dann larass selaluu dipermudahh jalann hiduppnaa nantiinaa sayangg,sampaii kitaa bersamaa
+              sampaii akheratt nantinaa,semogaa allahh permudahhkann jalann dann bukaa reezekii kitaa selebarr lebarrnaa
+              sayanggg aamiinn yaa rabballl alaamiienn🤍✨💞💕💖🤲🏻
+              <br><br>
+              sekaliii lagiii....
+              <br><br>
+              💕✨🤍💖🫶🏻HAPPYY BIRTHDAYY SHABRINAA LARASSKUUU SAYANNGGG💖🫶🏻🤍✨💕
+
+
+              <br><br>
+              <br><br>
+              <br><br>
+              <br><br>
+              <br><br>
+              <br><br>
+              <br><br>
+              <br><br>
+              <br><br>
+              <br><br>
+              <br><br>
+              <br><br>
+              <br><br>
+              <br><br>
+              <br><br>
+              <br><br>
+              <br><br>
+              <br><br>
+              <br><br>
+              <br><br>
+              <br><br>
+              <br><br>
+              <br><br>
+              <br><br>
+              btw cowomu semalemm betee sayangg mengharapkann upper asset darii siangg sampee soree,sampee malemm malaa
+              tidaa jadii-jadii teruss🥀🥀🥀
+              <br><br>
+              <br><br>
+              btw ituu musikknaa bisaa sayanngg gantii gantii yangg adaa atuhh yaa,yaa sapaa tauu sayannggkuu nakk
+              gantii yangg laenn kann wkwkwk
+            </p>
+
+            <!-- ✏️ SAMPAI SINI -->
+          </div>
+
+          <div class="letter-signature">
+            <p class="letter-closing">Dengan segenap cinta,</p>
+            <p class="letter-from">Jidann 💌</p>
+            <div class="letter-date" id="letterDate">26 Oktober 2026</div>
+          </div>
+        </div>
+
+        <div class="letter-wax-seal">💝</div>
+      </div>
+
+      <button class="letter-cta-btn" type="button" onclick="proceedToMain()">
+        <span class="letter-cta-icon">🎂</span>
+        Buka Hadiah Ulang Tahun
+        <span class="letter-cta-arrow">→</span>
+      </button>
+
+      <p class="letter-scroll-hint">Scroll ke bawah dulu kalau belum selesai baca 💕</p>
+    </div>
+  </div>
+
+  <!-- ========== MAIN CONTENT ========== -->
+  <div id="mainContent" class="hidden">
+
+    <!-- Toggle Floating Photos Cloud -->
+    <button class="floating-photos-toggle active" id="floatingPhotosToggle" type="button"
+      onclick="toggleFloatingPhotos()" title="Tampilkan / Sembunyikan Foto Kenangan Melayang">
+      <span class="fp-toggle-icon">📸</span>
+      <span class="fp-toggle-label">Foto Kenangan</span>
+      <span class="fp-toggle-dot"></span>
+    </button>
+
+    <!-- Floating Music Player -->
+    <div class="music-player" id="musicPlayer">
+      <div class="music-disc-wrap">
+        <div class="music-disc" id="musicDisc" onclick="toggleMusicPanel()" title="Pemutar Musik">
+          <div class="vinyl-groove"></div>
+          <span class="music-note">&#127925;</span>
+        </div>
+        <div class="music-waves" id="musicWaves">
+          <span></span><span></span><span></span><span></span>
+        </div>
+      </div>
+
+      <div class="music-panel" id="musicPanel">
+        <div class="music-panel-header">
+          <span class="panel-badge">&#10024; PLAYING FOR YOU &#128150;</span>
+          <button class="panel-close-btn" type="button" onclick="toggleMusicPanel()">&#10005;</button>
+        </div>
+        <div class="music-info">
+          <p class="music-title" id="musicTitle">Bergema Sampai Selamanya</p>
+          <p class="music-artist" id="musicArtist">Nadhif Basalamah</p>
+        </div>
+        <div class="music-progress-wrap" onclick="seekAudio(event)">
+          <div class="music-progress-bar">
+            <div class="music-progress-fill" id="musicProgressFill"></div>
+          </div>
+          <div class="music-time">
+            <span id="musicCurrentTime">0:00</span>
+            <span id="musicTotalTime">0:00</span>
+          </div>
+        </div>
+        <div class="music-controls">
+          <button onclick="prevSong()" class="ctrl-btn" type="button" title="Lagu Sebelumnya">&#9194;</button>
+          <button onclick="toggleMusic()" class="ctrl-btn play-btn" type="button" id="playBtn"
+            title="Play/Pause">&#9654;</button>
+          <button onclick="nextSong()" class="ctrl-btn" type="button" title="Lagu Selanjutnya">&#9193;</button>
+        </div>
+        <div class="music-track-list">
+          <div class="track-item active" id="track0" onclick="playSong(0)">&#127925; Bergema Sampai Selamanya</div>
+          <div class="track-item" id="track1" onclick="playSong(1)">&#127925; Bruno Mars - Risk It All</div>
+          <div class="track-item" id="track2" onclick="playSong(2)">&#127925; Kota Ini Tak Sama Tanpamu</div>
+          <div class="track-item" id="track3" onclick="playSong(3)">&#127925; Penjaga Hati</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== SECTION 1: HBD HERO ========== -->
+    <section class="hero-section" id="heroSection">
+      <div class="hero-bg-orbs">
+        <div class="orb orb1"></div>
+        <div class="orb orb2"></div>
+        <div class="orb orb3"></div>
+      </div>
+
+      <div class="hero-content">
+        <!-- 3D Interactive Cake -->
+        <div class="cake-3d-wrap" onclick="tapCake()" title="Ketuk kuenya! 🎂">
+          <div class="cake-scene">
+            <div class="cake-3d" id="cake3d">
+              <!-- Layer 3 (top) -->
+              <div class="cake-layer layer3">
+                <div class="layer-top"></div>
+                <div class="layer-sides"></div>
+              </div>
+              <!-- Layer 2 (middle) -->
+              <div class="cake-layer layer2">
+                <div class="layer-top"></div>
+                <div class="layer-sides"></div>
+              </div>
+              <!-- Layer 1 (bottom) -->
+              <div class="cake-layer layer1">
+                <div class="layer-top"></div>
+                <div class="layer-sides"></div>
+              </div>
+              <!-- Candles -->
+              <div class="candles-row" id="candlesRow">
+                <div class="candle">
+                  <div class="flame">
+                    <div class="flame-inner"></div>
+                  </div>
+                  <div class="candle-body"></div>
+                </div>
+                <div class="candle">
+                  <div class="flame">
+                    <div class="flame-inner"></div>
+                  </div>
+                  <div class="candle-body c2"></div>
+                </div>
+                <div class="candle">
+                  <div class="flame">
+                    <div class="flame-inner"></div>
+                  </div>
+                  <div class="candle-body c3"></div>
+                </div>
+                <div class="candle">
+                  <div class="flame">
+                    <div class="flame-inner"></div>
+                  </div>
+                  <div class="candle-body"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="cake-hint">&#10024; Ketuk kuenya untuk tiup lilin &#10024;</p>
+        </div>
+
+        <div class="hero-text-wrap">
+          <p class="hero-sub">&#10024; Hari yang paling spesial &#10024;</p>
+          <h1 class="hero-title">Happy Birthday,</h1>
+          <h2 class="hero-name" id="heroName">Sayangku &#128150;</h2>
+          <p class="hero-msg">Semoga hari ini seindah senyumanmu<br />dan sebahagia hatiku setiap melihatmu &#127800;
+          </p>
+          <button class="scroll-cta" type="button" onclick="scrollToFlipbook()">
+            Buka Album Masa Kecil &#128214;
+            <span class="cta-arrow">&#8595;</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="floating-emojis">
+        <span class="f-emoji" style="--d:0s;--x:12%">&#127800;</span>
+        <span class="f-emoji" style="--d:2.2s;--x:50%">&#10024;</span>
+        <span class="f-emoji" style="--d:4.4s;--x:84%">&#128150;</span>
+      </div>
+    </section>
+
+    <!-- ========== SECTION 2: BUKU FOTO MASA KECIL (INTERACTIVE FLIPBOOK) ========== -->
+    <section class="flipbook-section" id="flipbookSection">
+      <div class="floating-emojis">
+        <span class="f-emoji" style="--d:0.2s;--x:8%">&#128214;</span>
+        <span class="f-emoji" style="--d:1.8s;--x:45%">&#128150;</span>
+        <span class="f-emoji" style="--d:3.6s;--x:78%">&#10024;</span>
+        <span class="f-emoji" style="--d:5.2s;--x:88%">&#127800;</span>
+      </div>
+
+      <div class="section-header">
+        <span class="section-badge">&#10024; shabrina's memorial &#10024;</span>
+        <h2 class="section-title">&#128214; Kilas Balik shabrinaa larass</h2>
+        <p class="section-sub">Dari gadis kecil yang lucu dan menggemaskan, kini tumbuh jadi sosok hebat yang paling
+          jidann sayangg &#128150;</p>
+      </div>
+
+      <!-- Flipbook Outer Wrap -->
+      <div class="flipbook-outer-wrap">
+        <div class="flipbook-pedestal">
+          <div class="pedestal-glow"></div>
+        </div>
+
+        <div class="flipbook-scene" id="flipbookScene">
+          <div class="flipbook" id="flipbook">
+            <!-- Dynamic 3D Book Content Rendered by app.js -->
+          </div>
+        </div>
+
+        <!-- Book Ribbons & Bookmark -->
+        <div class="book-bookmark-ribbon" id="bookRibbon" title="Pita Kenangan"></div>
+
+        <!-- Flipbook HUD & Navigation Controls -->
+        <div class="flipbook-controls">
+          <button class="fb-ctrl-btn fb-prev-btn" id="fbPrevBtn" type="button" onclick="flipbookPrev()"
+            aria-label="Halaman Sebelumnya">
+            <span>&#8249;</span> Sebelumnya
+          </button>
+
+          <div class="fb-page-info">
+            <span class="fb-page-badge" id="fbPageBadge">Foto 1 / 7</span>
+            <div class="fb-dots-container" id="fbDots"></div>
+          </div>
+
+          <button class="fb-ctrl-btn fb-next-btn" id="fbNextBtn" type="button" onclick="flipbookNext()"
+            aria-label="Halaman Selanjutnya">
+            Selanjutnya <span>&#8250;</span>
+          </button>
+        </div>
+
+        <!-- Auxiliary Action Bar (Auto-play, Sound, Reset) -->
+        <div class="flipbook-actions">
+          <button class="fb-action-pill" id="fbSoundToggle" type="button" onclick="toggleFlipSound()"
+            title="Efek Suara Balik Halaman">
+            <span id="fbSoundIcon">&#128266;</span> <span id="fbSoundText">Suara: Nyala</span>
+          </button>
+          <button class="fb-action-pill" id="fbAutoPlayBtn" type="button" onclick="toggleFlipbookAutoPlay()"
+            title="Buka Otomatis">
+            <span id="fbAutoPlayIcon">&#9654;</span> <span id="fbAutoPlayText">Putar Otomatis</span>
+          </button>
+          <button class="fb-action-pill" id="fbResetBtn" type="button" onclick="flipbookGoTo(0)"
+            title="Kembali ke Sampul">
+            <span>&#8634;</span> <span>Sampul</span>
+          </button>
+        </div>
+
+        <p class="fb-touch-hint">&#128161; Tips: Kamu bisa <strong>geser jari (swipe)</strong> atau <strong>ketuk sisi
+            halaman</strong> untuk membalik halaman</p>
+
+        <!-- CTA To Scroll to Timeline -->
+        <div class="fb-scroll-next-wrap">
+          <button class="fb-scroll-next-btn" type="button" onclick="scrollToTimeline()">
+            Lihat Timeline Kenangan &#128248; &#8595;
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== SECTION 3: TIMELINE ========== -->
+    <section class="timeline-section" id="timelineSection">
+      <div class="floating-emojis">
+        <span class="f-emoji" style="--d:0.4s;--x:10%">&#128248;</span>
+        <span class="f-emoji" style="--d:2.0s;--x:42%">&#128149;</span>
+        <span class="f-emoji" style="--d:3.8s;--x:76%">&#127799;</span>
+        <span class="f-emoji" style="--d:5.4s;--x:90%">&#10024;</span>
+      </div>
+      <div class="section-header">
+        <h2 class="section-title">&#128248; Kenangan Kita</h2>
+        <p class="section-sub">Setiap momen bersamamu adalah yang terindah</p>
+      </div>
+      <div class="timeline-slider-wrap" id="timelineSliderWrap">
+        <div class="timeline-slider" id="timelineSlider"></div>
+      </div>
+      <div class="timeline-nav">
+        <button class="tl-nav-btn" id="tlPrev" type="button" onclick="slideTimeline(-1)"
+          aria-label="Sebelumnya">&#8249;</button>
+        <div class="tl-dots" id="tlDots"></div>
+        <button class="tl-nav-btn" id="tlNext" type="button" onclick="slideTimeline(1)"
+          aria-label="Selanjutnya">&#8250;</button>
+      </div>
+    </section>
+
+    <!-- ========== SECTION 3: FLIP CARDS ========== -->
+    <section class="flipcard-section">
+      <div class="floating-emojis">
+        <span class="f-emoji" style="--d:0.6s;--x:14%">&#128140;</span>
+        <span class="f-emoji" style="--d:2.4s;--x:48%">&#128151;</span>
+        <span class="f-emoji" style="--d:4.2s;--x:82%">&#128171;</span>
+        <span class="f-emoji" style="--d:5.8s;--x:26%">&#127801;</span>
+      </div>
+      <div class="section-header">
+        <h2 class="section-title">&#128140; Alasan Aku Mencintaimu</h2>
+        <p class="section-sub">Ketuk kartu untuk melihat isi hatiku &#128149;</p>
+      </div>
+      <div class="flipcards-grid" id="flipcardsGrid"></div>
+    </section>
+
+    <!-- ========== SECTION 4: ARCADE GAME ========== -->
+    <section class="game-section">
+      <div class="floating-emojis">
+        <span class="f-emoji" style="--d:0.3s;--x:10%">&#127918;</span>
+        <span class="f-emoji" style="--d:1.8s;--x:46%">&#11088;</span>
+        <span class="f-emoji" style="--d:3.5s;--x:84%">&#127880;</span>
+        <span class="f-emoji" style="--d:5.0s;--x:25%">&#128157;</span>
+      </div>
+      <div class="section-header">
+        <h2 class="section-title">&#127918; Catch The Hearts!</h2>
+        <p class="section-sub">Tangkap hati yang jatuh untukmu &#128157;</p>
+      </div>
+      <div class="game-wrapper">
+        <div class="game-hud">
+          <div class="hud-item">&#10084;&#65039; <span id="gameScore">0</span></div>
+          <div class="hud-item">&#9203; <span id="gameTimer">30</span>s</div>
+          <div class="hud-item">&#128148; Miss: <span id="gameMiss">0</span></div>
+        </div>
+        <canvas id="gameCanvas"></canvas>
+        <div class="game-overlay" id="gameOverlay">
+          <div class="game-overlay-content">
+            <div class="game-overlay-emoji" id="gameEmoji">&#128150;</div>
+            <h3 id="gameOverlayTitle">Ready to Play?</h3>
+            <p id="gameOverlayMsg">Tangkap semua hati yang jatuh!<br />Geser jari atau tap di layar untuk menggerakkan
+              wadah cinta</p>
+            <button class="game-start-btn" id="gameStartBtn" type="button" onclick="startGame()">Mulai Game!
+              &#127915;</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="site-footer">
+      <div class="floating-emojis">
+        <span class="f-emoji" style="--d:0.5s;--x:18%">&#128150;</span>
+        <span class="f-emoji" style="--d:2.8s;--x:82%">&#128158;</span>
+      </div>
+      <div class="footer-hearts">
+        <span>&#128150;</span><span>&#128151;</span><span>&#128149;</span><span>&#128147;</span><span>&#128158;</span>
+      </div>
+      <p class="footer-msg">Dibuat dengan sepenuh hati,<br />hanya untukmu &#127801;</p>
+      <p class="footer-date" id="footerDate">Made from 07 Oktober 2026 &#128167;</p>
+    </footer>
+
+  </div>
+
+  <!-- Photo Lightbox Modal -->
+  <div class="photo-lightbox" id="photoLightbox" onclick="closeLightbox(event)">
+    <div class="lightbox-content" onclick="event.stopPropagation()">
+      <button class="lightbox-close" type="button" onclick="closeLightbox()" aria-label="Tutup">&#10005;</button>
+      <div class="lightbox-img-wrap">
+        <img src="" alt="" class="lightbox-img" id="lightboxImg" />
+      </div>
+      <div class="lightbox-caption" id="lightboxCaption"></div>
+    </div>
+  </div>
+
+  <!-- Modal Memori Mini (Pop-up Partikel Foto Melayang) -->
+  <div class="mini-memory-modal" id="miniMemoryModal" onclick="closeMiniMemory(event)">
+    <div class="mini-memory-card" onclick="event.stopPropagation()">
+      <button class="mini-memory-close" type="button" onclick="closeMiniMemory()" aria-label="Tutup">&#10005;</button>
+      <div class="mini-memory-badge">
+        <span class="mm-badge-icon">&#10024;</span>
+        <span id="miniMemoryBadge">Memori Mini #1</span>
+        <span class="mm-badge-icon">&#128150;</span>
+      </div>
+      <div class="mini-memory-img-wrap">
+        <img src="" alt="Memori Mini" class="mini-memory-img" id="miniMemoryImg" />
+        <div class="mini-memory-shine"></div>
+      </div>
+      <div class="mini-memory-body">
+        <h3 class="mini-memory-title" id="miniMemoryTitle">Judul Memori</h3>
+        <p class="mini-memory-desc" id="miniMemoryDesc">Catatan pendek momen indah...</p>
+        <div class="mini-memory-music-indicator">
+          <span class="mm-music-icon">&#127925;</span>
+          <span class="mm-music-text" id="miniMemoryMusicText">Diputar bersama alunan lagu cinta</span>
+          <div class="mm-music-bars"><span></span><span></span><span></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Audio Elements with Preload and Direct Path -->
+  <audio id="audio1" loop preload="auto">
+    <source src="music/bergema-sampai-selamanya.mp3" type="audio/mpeg" />
+  </audio>
+  <audio id="audio2" loop preload="auto">
+    <source src="music/bruno-mars-risk-it-all.mp3" type="audio/mpeg" />
+  </audio>
+  <audio id="audio3" loop preload="auto">
+    <source src="music/Nadhif_Basalamah_-_kota_ini_tak_sama_tanpamu_(mp3.pm).aac" type="audio/aac" />
+    <source src="music/Nadhif_Basalamah_-_kota_ini_tak_sama_tanpamu_(mp3.pm).aac" type="audio/mp4" />
+  </audio>
+  <audio id="audio4" loop preload="auto">
+    <source src="music/Nadhif_Basalamah_-_penjaga_hati_(mp3.pm).aac" type="audio/aac" />
+    <source src="music/Nadhif_Basalamah_-_penjaga_hati_(mp3.pm).aac" type="audio/mp4" />
+  </audio>
+
+  <script src="app.js"></script>
+</body>
+
+</html>
